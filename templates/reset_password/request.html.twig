@@ -3,20 +3,57 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>Reset your password</h1>
+<div class="pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xxl-4 col-lg-5">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <div class="text-center w-75 m-auto">
+                            <h4 class="text-dark-50 text-center mt-0 fw-bold">{{ 'Reset your password' |trans }}</h4>
+                            <p class="text-muted mb-4">{{ 'Enter your email address, and we will send you a link to reset your password.' |trans }}</p>
+                        </div>
+                        
+                        {% for flash_error in app.flashes('reset_password_error') %}
+                            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                        {% endfor %}
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address, and we will send you a
-                link to reset your password.
-            </small>
+                        {{ form_start(requestForm) }}
+                            {{ form_errors(requestForm) }}
+                            <div class="mb-3">
+                                {{ form_label(
+                                    requestForm.email, 
+                                    'email_label' |trans, 
+                                    {
+                                        'label_attr': {'class': 'form-label'}
+                                    }
+                                )}}
+                                {{ form_widget(
+                                    requestForm.email,
+                                    {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'email_placeholder' |trans
+                                        }
+                                    }
+                                )}}
+                            </div>
+                            <div class="mb-3 text-center">
+                                <button class="btn btn-primary" type="submit">{{ 'Send password reset email' |trans }}</button>
+                            </div>
+                        {{ form_end(requestForm) }}
+                    </div>
+                </div>
+                <!-- end card -->
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p class="text-muted">{{ 'Did you remember the password?' |trans }} <a href="{{ path('app_login') }}" class="text-muted"><b>{{ 'Click Here' |trans }}</b></a></p>
+                    </div> <!-- end col-->
+                </div>
+            </div> <!-- end col -->
         </div>
-
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
 {% endblock %}
