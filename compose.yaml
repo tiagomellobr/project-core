@@ -23,6 +23,10 @@ services:
       - 3307:3306
     volumes:
       - "db_test:/var/lib/mysql"
+  redis:
+    image: "redis:5-alpine"
+    ports:
+      - 6379:6379
   mailer:
     image: axllent/mailpit
     ports:
