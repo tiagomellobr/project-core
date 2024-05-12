@@ -1,0 +1,26 @@
+'Your account has been created successfully!': 'Your account has been created successfully!'
+sign_up_title: Sign Up
+sign_up_text: Don't have an account? Create your account, it takes less than a minute
+name_label: Name
+name_placeholder: Enter your name
+email_label: Email address
+email_placeholder: Enter your email
+password_label: Password
+password_placeholder: Enter your password
+i_accept: I accept
+terms_and_conditions: Terms and Conditions
+sign_up: Sign Up
+sign_up_login_text: Don't have an account?
+log_in: Log In
+'Reset your password': 'Reset your password'
+'Reset password': 'Reset password'
+'Enter your email address, and we will send you a link to reset your password.': 'Enter your email address, and we will send you a link to reset your password.'
+'Send password reset email': 'Send password reset email'
+'Did you remember the password?': 'Did you remember the password?'
+'Click Here': 'Click Here'
+sign_in: Sign In
+sign_in_text: Enter your email address and password to access admin panel.
+you_are_logged_in_as: You are logged in as
+forgot_password: Forgot your password?
+remember_me_label: Remember me
+login_sign_up_text: Don't have an account?
