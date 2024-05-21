@@ -6,9 +6,9 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
@@ -28,7 +28,9 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         TranslatorInterface $translator,
-        EntityManagerInterface $entityManager): Response
+        EntityManagerInterface $entityManager,
+        Recaptcha3Validator $recaptcha3Validator,
+    ): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_main');
@@ -78,6 +80,14 @@ class RegistrationController extends AbstractController
                 $this->addFlash(
                     'verify_email_error', 
                     $translator->trans($errors[0])
+                );
+            }
+
+            $validator = $recaptcha3Validator->getLastResponse();
+            if (!$validator->isSuccess()) {
+                $this->addFlash(
+                    'verify_email_error', 
+                    'Failed to pass robot test'
                 );
             }
         }

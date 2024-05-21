@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use Doctrine\ORM\EntityManagerInterface;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -35,7 +36,12 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
+    public function request(
+        Request $request,
+        MailerInterface $mailer,
+        TranslatorInterface $translator,
+        Recaptcha3Validator $recaptcha3Validator    
+    ): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
@@ -46,6 +52,16 @@ class ResetPasswordController extends AbstractController
                 $mailer,
                 $translator
             );
+        }
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $validator = $recaptcha3Validator->getLastResponse();
+            if (!$validator->isSuccess()) {
+                $this->addFlash(
+                    'reset_password_error', 
+                    'Failed to pass robot test'
+                );
+            }       
         }
 
         return $this->render('reset_password/request.html.twig', [
