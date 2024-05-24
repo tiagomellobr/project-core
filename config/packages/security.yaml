@@ -18,7 +18,9 @@ security:
             provider: app_user_provider
             logout:
                 path: app_logout
-            custom_authenticator: App\Security\AppAuthenticator
+            custom_authenticator:
+                - App\Security\AppAuthenticator
+                - App\Security\GoogleAuthenticator
 
             remember_me:
                 secret: '%kernel.secret%'
