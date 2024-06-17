@@ -152,4 +152,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getProfilePhotoUrl()
+    {
+        $name = mb_substr($this->name, 0, 1);
+        return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=323232&background=FFFFFF';
+    }
 }

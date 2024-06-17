@@ -14,6 +14,28 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+            <twig:Navbar />
+        </header>
+        <main>
+            <div class="container">
+                {% for flash in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ flash }}
+                    </div>
+                {% endfor %}
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+        <footer>
+            <div class="container-fluid fixed-bottom ">
+                <div class="row">
+                    <div class="col text-center p-2 bg-light">
+                        {{ "now"|date('Y') }} &copy; Project Core
+                    </div>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

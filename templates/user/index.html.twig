@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+<div class="row pb-3 border-bottom">
+    <div class="col-md-4">
+        <h3>{{ 'Profile Information' |trans }}</h3>
+        <p class="text-muted">
+            {{ 'Update your account\'s profile information and email address.' |trans }}
+        </p>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow border-0">
+            {{ form_start(formUser) }}
+            <div class="card-body">                    
+                <div class="mb-3">
+                    {{ form_label(
+                        formUser.name, 
+                        'name_label' |trans, 
+                        {
+                            'label_attr': {'class': 'form-label'}
+                        }
+                    )}}
+                    {{ form_widget(
+                        formUser.name,
+                        {
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'name_placeholder' |trans
+                            }
+                        }
+                    )}}
+                    {{ form_errors(formUser.name) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(
+                        formUser.email, 
+                        'email_label' |trans, 
+                        {
+                            'label_attr': {'class': 'form-label'}
+                        }
+                    )}}
+                    {{ form_widget(
+                        formUser.email,
+                        {
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'email_placeholder' |trans
+                            }
+                        }
+                    )}}
+                    {{ form_errors(formUser.email) }}
+                </div>
+            </div>
+            <div class="card-footer d-md-flex justify-content-md-end">
+                <button class="btn btn-dark btn-submit text-capitalize" type="submit"><i class="bi bi-floppy me-1"></i> {{ 'save' |trans }}</button>
+            </div>
+            {{ form_end(formUser) }}
+        </div>
+    </div>
+</div>
+<div class="row mt-3 pb-2">
+    <div class="col-md-4">
+        <h3>{{ 'Update Password' |trans }}</h3>
+        <p class="text-muted">
+            {{ 'Ensure your account is using a long, random password to stay secure.' |trans }}
+        </p>
+    </div>
+    <div class="col-md-8">
+        <div class="card shadow border-0">
+            {{ form_start(formPassword) }}
+                <div class="card-body">
+                    <div class="mb-3">
+                        {{ form_label(
+                            formPassword.plainPassword.first, 
+                            'new_password_label' |trans, 
+                            {
+                                'label_attr': {'class': 'form-label'}
+                            }
+                        )}}
+                        {{ form_widget(
+                            formPassword.plainPassword.first,
+                            {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Password' |trans
+                                }
+                            }
+                        )}}
+                        {{ form_errors(formPassword.plainPassword.first) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(
+                            formPassword.plainPassword.second, 
+                            'repeat_password_label' |trans, 
+                            {
+                                'label_attr': {'class': 'form-label'}
+                            }
+                        )}}
+                        {{ form_widget(
+                            formPassword.plainPassword.second,
+                            {
+                                'attr': {
+                                    'class': 'form-control',
+                                    'placeholder': 'Password' |trans
+                                }
+                            }
+                        )}}
+                        {{ form_errors(formPassword.plainPassword.second) }}
+                    </div>
+                </div>
+                <div class="card-footer d-md-flex justify-content-md-end">
+                <button class="btn btn-dark btn-submit text-capitalize" type="submit"><i class="bi bi-floppy me-1"></i> {{ 'save' |trans }}</button>
+            </div>
+            {{ form_end(formPassword) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
