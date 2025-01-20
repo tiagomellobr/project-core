@@ -14,9 +14,11 @@
         {% endblock %}
     </head>
     <body>
+        {% if app.user %}
         <header>
             <twig:Navbar />
         </header>
+        {% endif %}
         <main>
             <div class="container">
                 {% for flash in app.flashes('success') %}
