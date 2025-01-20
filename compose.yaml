@@ -1,6 +1,25 @@
-version: "3"
-
 services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/snippets:/etc/nginx/snippets
+    ports:
+      - "8008:80"
+    depends_on:
+      - php
+    networks:
+      - app_network
   db:
     image: "mysql:8.0.32"
     environment:
@@ -12,6 +31,8 @@ services:
       - 3306:3306
     volumes:
       - "db:/var/lib/mysql"
+    networks:
+      - app_network
   db_test:
     image: "mysql:8.0.32"
     environment:
@@ -23,15 +44,24 @@ services:
       - 3307:3306
     volumes:
       - "db_test:/var/lib/mysql"
+    networks:
+      - app_network
   redis:
-    image: "redis:5-alpine"
+    image: "redis:alpine"
     ports:
-      - 6379:6379
+      - "6379:6379"
+    networks:
+      - app_network
   rabbitmq:
-    image: rabbitmq:3-management
-    ports: 
-      - 5672:5672
-      - 15672:15672
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app_network
   mailer:
     image: axllent/mailpit
     ports:
@@ -40,7 +70,13 @@ services:
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+      - app_network
 
 volumes:
   db:
   db_test:
+
+networks:
+  app_network:
+    driver: bridge
