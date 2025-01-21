@@ -158,4 +158,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $name = mb_substr($this->name, 0, 1);
         return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=323232&background=FFFFFF';
     }
+
+    public function getIsVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
 }
